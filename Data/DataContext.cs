@@ -9,18 +9,19 @@ namespace Api_NetCore.Data
 {
     public class DataContext : DbContext
     {
-        public DataContext(DbContextOptions<DataContext> options) : base(options)
-        {
-        }
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //public DataContext(DbContextOptions<DataContext> options) : base(options)
         //{
-        //    optionsBuilder.UseSqlServer("data source=FELIPE;Initial Catalog=first_api_core;Integrated Security=True");
         //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("data source=FELIPE;Initial Catalog=datApiNetCore;Integrated Security=True");
+        }
 
         public DbSet<Category> Categories { get; set; }
 
         public DbSet<Product> Products { get; set; }
+
+        public DbSet<User> User { get; set; }
 
         //protected override void OnModelCreating(ModelBuilder builder)
         //{

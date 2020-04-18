@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Api_NetCore.Data;
 using Api_NetCore.Models;
+using Api_NetCore.Repositories;
+using Api_NetCore.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +17,8 @@ namespace Api_NetCore.Controllers
 {
     [Route("v1/categories")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
     public class CategoryController : ControllerBase
     {
         // GET: api/Category
@@ -19,12 +26,9 @@ namespace Api_NetCore.Controllers
         public async Task<ActionResult<List<Category>>> Get([FromServices] DataContext context)
         {
             var categories = await context.Categories.ToListAsync();
-
             return categories;
         }
 
-
-        // Post: api/Category
         [HttpPost]
         [Route("")]
         public async Task<ActionResult<Category>> Post([FromServices] DataContext context, [FromBody] Category model)
@@ -40,6 +44,5 @@ namespace Api_NetCore.Controllers
                 return BadRequest(ModelState);
             }
         }
-
     }
 }
